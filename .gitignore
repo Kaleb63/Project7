@@ -1,0 +1,8 @@
+# Eclipse build output and workspace state
+/bin/
+*.class
+/.metadata/
+
+# Operating system files
+.DS_Store
+Thumbs.db
