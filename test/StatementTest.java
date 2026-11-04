@@ -14,7 +14,8 @@ import components.utilities.Tokenizer;
  * JUnit test fixture for {@code Statement}'s constructor and kernel methods.
  *
  * @author Wayne Heym
- * @author Put your name here
+ * @author Andrew Pavel
+ * @author Kaleb Agbobli
  *
  */
 public abstract class StatementTest {
@@ -287,8 +288,7 @@ public abstract class StatementTest {
         Statement sRef = blockRef.removeFromBlock(ifElsePos);
         Statement thenBlockTest = sourceTest.newInstance();
         Statement elseBlockTest = sourceTest.newInstance();
-        Condition cTest = sourceTest.disassembleIfElse(thenBlockTest,
-                elseBlockTest);
+        Condition cTest = sourceTest.disassembleIfElse(thenBlockTest, elseBlockTest);
         Statement sTest = blockTest.newInstance();
 
         /*
@@ -451,6 +451,132 @@ public abstract class StatementTest {
         assertEquals(nRef, nTest);
     }
 
-    // TODO - provide additional test cases to thoroughly test StatementKernel
+    /*
+     * Additional tests added for project.
+     */
+
+    /**
+     * Test lengthOfBlock on an empty block.
+     */
+    @Test
+    public final void testLengthOfBlockEmpty() {
+        Statement sTest = this.constructorTest();
+        Statement sRef = this.constructorRef();
+
+        assertEquals(0, sTest.lengthOfBlock());
+        assertEquals(sRef, sTest);
+    }
+
+    /**
+     * Test addToBlock at the beginning of a block.
+     */
+    @Test
+    public final void testAddToBlockFront() {
+        Statement sTest = this.createFromFileTest(FILE_NAME_1);
+        Statement sRef = this.createFromFileRef(FILE_NAME_1);
+
+        Statement callTest = this.constructorTest().newInstance();
+        Statement callRef = this.constructorRef().newInstance();
+
+        callTest.assembleCall("newInstruction");
+        callRef.assembleCall("newInstruction");
+
+        sRef.addToBlock(0, callRef);
+        sTest.addToBlock(0, callTest);
+
+        assertEquals(sRef, sTest);
+        assertEquals(this.constructorRef(), callTest);
+    }
+
+    /**
+     * Test addToBlock at the end of a block.
+     */
+    @Test
+    public final void testAddToBlockEnd() {
+        Statement sTest = this.createFromFileTest(FILE_NAME_1);
+        Statement sRef = this.createFromFileRef(FILE_NAME_1);
+
+        Statement callTest = this.constructorTest().newInstance();
+        Statement callRef = this.constructorRef().newInstance();
+
+        callTest.assembleCall("newInstruction");
+        callRef.assembleCall("newInstruction");
+
+        sRef.addToBlock(sRef.lengthOfBlock(), callRef);
+        sTest.addToBlock(sTest.lengthOfBlock(), callTest);
+
+        assertEquals(sRef, sTest);
+        assertEquals(this.constructorRef(), callTest);
+    }
+
+    /**
+     * Test removeFromBlock at the end of a block.
+     */
+    @Test
+    public final void testRemoveFromBlockEnd() {
+        Statement sTest = this.createFromFileTest(FILE_NAME_1);
+        Statement sRef = this.createFromFileRef(FILE_NAME_1);
+
+        int lastPosition = sRef.lengthOfBlock() - 1;
+
+        Statement removedRef = sRef.removeFromBlock(lastPosition);
+        Statement removedTest = sTest.removeFromBlock(lastPosition);
+
+        assertEquals(sRef, sTest);
+        assertEquals(removedRef, removedTest);
+    }
+
+    /**
+     * Test assembleIfElse clears both source blocks.
+     */
+    @Test
+    public final void testAssembleIfElseClearsSources() {
+        Statement sTest = this.constructorTest().newInstance();
+        Statement sRef = this.constructorRef().newInstance();
+
+        Statement thenTest = this.constructorTest().newInstance();
+        Statement elseTest = this.constructorTest().newInstance();
+
+        Statement thenRef = this.constructorRef().newInstance();
+        Statement elseRef = this.constructorRef().newInstance();
+
+        thenTest.assembleCall("thenInstruction");
+        elseTest.assembleCall("elseInstruction");
+
+        thenRef.assembleCall("thenInstruction");
+        elseRef.assembleCall("elseInstruction");
+
+        Condition c = Condition.NEXT_IS_EMPTY;
+
+        sRef.assembleIfElse(c, thenRef, elseRef);
+        sTest.assembleIfElse(c, thenTest, elseTest);
+
+        assertEquals(sRef, sTest);
+        assertEquals(this.constructorRef(), thenTest);
+        assertEquals(this.constructorRef(), elseTest);
+    }
+
+    /**
+     * Test assembleWhile clears its source block.
+     */
+    @Test
+    public final void testAssembleWhileClearsSource() {
+        Statement sTest = this.constructorTest().newInstance();
+        Statement sRef = this.constructorRef().newInstance();
+
+        Statement nestedTest = this.constructorTest().newInstance();
+        Statement nestedRef = this.constructorRef().newInstance();
+
+        nestedTest.assembleCall("insideLoop");
+        nestedRef.assembleCall("insideLoop");
+
+        Condition c = Condition.NEXT_IS_EMPTY;
+
+        sRef.assembleWhile(c, nestedRef);
+        sTest.assembleWhile(c, nestedTest);
+
+        assertEquals(sRef, sTest);
+        assertEquals(this.constructorRef(), nestedTest);
+    }
 
 }

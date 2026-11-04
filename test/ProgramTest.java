@@ -13,7 +13,8 @@ import components.statement.Statement;
  * JUnit test fixture for {@code Program}'s constructor and kernel methods.
  *
  * @author Wayne Heym
- * @author Put your name here
+ * @author Andrew Pavel
+ * @author Kaleb Agbobli
  *
  */
 public abstract class ProgramTest {
@@ -282,6 +283,62 @@ public abstract class ProgramTest {
         assertEquals(bodyRef, bodyTest);
     }
 
-    // TODO - provide additional test cases to thoroughly test ProgramKernel
+    /*
+     * Additional tests added for project.
+     */
+
+    /**
+     * Test swapContext with an empty context.
+     */
+    @Test
+    public final void testSwapContextEmpty() {
+        Program pTest = this.createFromFileTest(FILE_NAME_1);
+        Program pRef = this.createFromFileRef(FILE_NAME_1);
+
+        Map<String, Statement> emptyTest = pTest.newContext();
+        Map<String, Statement> emptyRef = pRef.newContext();
+
+        pRef.swapContext(emptyRef);
+        pTest.swapContext(emptyTest);
+
+        assertEquals(pRef, pTest);
+        assertEquals(emptyRef, emptyTest);
+    }
+
+    /**
+     * Test swapBody twice.
+     */
+    @Test
+    public final void testSwapBodyTwice() {
+        Program pTest = this.createFromFileTest(FILE_NAME_1);
+        Program pRef = this.createFromFileRef(FILE_NAME_1);
+
+        Statement bodyTest = pTest.newBody();
+        Statement bodyRef = pRef.newBody();
+
+        pRef.swapBody(bodyRef);
+        pRef.swapBody(bodyRef);
+
+        pTest.swapBody(bodyTest);
+        pTest.swapBody(bodyTest);
+
+        assertEquals(pRef, pTest);
+        assertEquals(bodyRef, bodyTest);
+    }
+
+    /**
+     * Test setName with another valid identifier.
+     */
+    @Test
+    public final void testSetNameAgain() {
+        Program pTest = this.createFromFileTest(FILE_NAME_1);
+        Program pRef = this.createFromFileRef(FILE_NAME_1);
+
+        pTest.setName("AnotherProgram");
+        pRef.setName("AnotherProgram");
+
+        assertEquals(pRef, pTest);
+        assertEquals("AnotherProgram", pTest.name());
+    }
 
 }
