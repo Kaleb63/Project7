@@ -198,8 +198,12 @@ public class Statement2 extends StatementSecondary {
                 : "" + "Violation of: pos <= [length of this BLOCK]";
         assert s.kind() != Kind.BLOCK : "Violation of: [s is not a BLOCK statement]";
 
-        // TODO - fill in body
-        this.rep.addSubtree(pos, this.rep);
+        Statement2 localS = (Statement2) s;
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+        StatementLabel root = this.rep.disassemble(children);
+        children.add(pos, localS.rep);
+        this.rep.assemble(root, children);
+        localS.createNewRep();
 
     }
 
@@ -320,6 +324,8 @@ public class Statement2 extends StatementSecondary {
         localS1.rep = children.remove(0);
         localS2.rep = children.remove(0);
 
+        this.createNewRep();
+
         return label.condition;
     }
 
@@ -360,6 +366,8 @@ public class Statement2 extends StatementSecondary {
         StatementLabel label = this.rep.disassemble(children);
 
         localS.rep = children.remove(0);
+
+        this.createNewRep();
 
         return label.condition;
     }

@@ -536,15 +536,23 @@ public abstract class StatementTest {
 
         Statement thenTest = this.constructorTest().newInstance();
         Statement elseTest = this.constructorTest().newInstance();
-
         Statement thenRef = this.constructorRef().newInstance();
         Statement elseRef = this.constructorRef().newInstance();
 
-        thenTest.assembleCall("thenInstruction");
-        elseTest.assembleCall("elseInstruction");
+        Statement thenCallTest = this.constructorTest().newInstance();
+        Statement elseCallTest = this.constructorTest().newInstance();
+        Statement thenCallRef = this.constructorRef().newInstance();
+        Statement elseCallRef = this.constructorRef().newInstance();
 
-        thenRef.assembleCall("thenInstruction");
-        elseRef.assembleCall("elseInstruction");
+        thenCallTest.assembleCall("thenInstruction");
+        elseCallTest.assembleCall("elseInstruction");
+        thenCallRef.assembleCall("thenInstruction");
+        elseCallRef.assembleCall("elseInstruction");
+
+        thenTest.addToBlock(0, thenCallTest);
+        elseTest.addToBlock(0, elseCallTest);
+        thenRef.addToBlock(0, thenCallRef);
+        elseRef.addToBlock(0, elseCallRef);
 
         Condition c = Condition.NEXT_IS_EMPTY;
 
@@ -566,9 +574,13 @@ public abstract class StatementTest {
 
         Statement nestedTest = this.constructorTest().newInstance();
         Statement nestedRef = this.constructorRef().newInstance();
+        Statement callTest = this.constructorTest().newInstance();
+        Statement callRef = this.constructorRef().newInstance();
 
-        nestedTest.assembleCall("insideLoop");
-        nestedRef.assembleCall("insideLoop");
+        callTest.assembleCall("insideLoop");
+        callRef.assembleCall("insideLoop");
+        nestedTest.addToBlock(0, callTest);
+        nestedRef.addToBlock(0, callRef);
 
         Condition c = Condition.NEXT_IS_EMPTY;
 

@@ -114,7 +114,7 @@ public class Program2 extends ProgramSecondary {
         // TODO - fill in body
         // Make sure to use Statement1 from the library
         // Use Map1L for the context if you want the asserts below to match
-        this.name = "";
+        this.name = "Unnamed";
         this.context = new Map1L<String, Statement>();
         this.body = new Statement1();
 
@@ -208,8 +208,7 @@ public class Program2 extends ProgramSecondary {
                         + " of primitive instructions in the BL language";
         assert allBlocks(c) : "Violation of: bodies in c" + " are all BLOCK statements";
 
-        // TODO - fill in body
-        Map<String, Statement> temp = this.context;
+        Map<String, Statement> temp = new Map1L<String, Statement>();
         temp.transferFrom(this.context);
         this.context.transferFrom(c);
         c.transferFrom(temp);
