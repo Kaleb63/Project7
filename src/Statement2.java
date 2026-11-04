@@ -12,7 +12,8 @@ import components.utilities.Tokenizer;
  * @convention [$this.rep is a valid representation of a Statement]
  * @correspondence this = $this.rep
  *
- * @author Put your name here
+ * @author Kaleb Agbobli
+ * @author Andrew Pavel
  *
  */
 public class Statement2 extends StatementSecondary {
@@ -117,8 +118,6 @@ public class Statement2 extends StatementSecondary {
      * Creator of initial representation.
      */
     private void createNewRep() {
-
-        // TODO - fill in body
         this.rep = new Tree1<StatementLabel>();
 
         StatementLabel root = new StatementLabel(Kind.BLOCK);
@@ -180,9 +179,6 @@ public class Statement2 extends StatementSecondary {
 
     @Override
     public final Kind kind() {
-
-        // TODO - fill in body
-
         return this.rep.root().kind;
     }
 
@@ -237,9 +233,6 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.BLOCK
                 : "" + "Violation of: [this is a BLOCK statement]";
 
-        // TODO - fill in body
-
-        // Fix this line to return the result.
         return this.rep.numberOfSubtrees();
     }
 

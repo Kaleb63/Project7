@@ -15,7 +15,8 @@ import components.utilities.Tokenizer;
  *             and [$this.body is a BLOCK statement]
  * @correspondence this = ($this.name, $this.context, $this.body)
  *
- * @author Put your name here
+ * @author Kaleb Agbobli
+ * @author Andrew Pavel
  *
  */
 public class Program2 extends ProgramSecondary {
@@ -110,10 +111,6 @@ public class Program2 extends ProgramSecondary {
      * Creator of initial representation.
      */
     private void createNewRep() {
-
-        // TODO - fill in body
-        // Make sure to use Statement1 from the library
-        // Use Map1L for the context if you want the asserts below to match
         this.name = "Unnamed";
         this.context = new Map1L<String, Statement>();
         this.body = new Statement1();
@@ -182,19 +179,11 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final String name() {
-
-        // TODO - fill in body
-
-        // Fix this line to return the result.
         return this.name;
     }
 
     @Override
     public final Map<String, Statement> newContext() {
-
-        // TODO - fill in body
-
-        // Fix this line to return the result.
         return new Map1L<String, Statement>();
     }
 
@@ -217,10 +206,6 @@ public class Program2 extends ProgramSecondary {
 
     @Override
     public final Statement newBody() {
-
-        // TODO - fill in body
-
-        // Fix this line to return the result.
         return new Statement1();
     }
 
@@ -230,7 +215,6 @@ public class Program2 extends ProgramSecondary {
         assert b instanceof Statement1 : "Violation of: b is a Statement1";
         assert b.kind() == Kind.BLOCK : "Violation of: b is a BLOCK statement";
 
-        // TODO - fill in body
         Statement temp = new Statement1();
 
         temp.transferFrom(this.body);
