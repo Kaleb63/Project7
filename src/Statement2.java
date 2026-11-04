@@ -310,10 +310,17 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.IF_ELSE
                 : "" + "Violation of: [this is an IF_ELSE statement]";
 
-        // TODO - fill in body
+        Statement2 localS1 = (Statement2) s1;
+        Statement2 localS2 = (Statement2) s2;
 
-        // Fix this line to return the result.
-        return null;
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        StatementLabel label = this.rep.disassemble(children);
+
+        localS1.rep = children.remove(0);
+        localS2.rep = children.remove(0);
+
+        return label.condition;
     }
 
     @Override
@@ -346,10 +353,15 @@ public class Statement2 extends StatementSecondary {
         assert this.kind() == Kind.WHILE
                 : "" + "Violation of: [this is a WHILE statement]";
 
-        // TODO - fill in body
+        Statement2 localS = (Statement2) s;
 
-        // Fix this line to return the result.
-        return null;
+        Sequence<Tree<StatementLabel>> children = this.rep.newSequenceOfTree();
+
+        StatementLabel label = this.rep.disassemble(children);
+
+        localS.rep = children.remove(0);
+
+        return label.condition;
     }
 
     @Override
@@ -370,10 +382,13 @@ public class Statement2 extends StatementSecondary {
     public final String disassembleCall() {
         assert this.kind() == Kind.CALL : "" + "Violation of: [this is a CALL statement]";
 
-        // TODO - fill in body
+        StatementLabel label = this.rep.root();
 
-        // Fix this line to return the result.
-        return null;
+        String instruction = label.instruction;
+
+        this.createNewRep();
+
+        return instruction;
     }
 
 }
